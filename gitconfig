@@ -1,0 +1,9 @@
+[user]
+	email = kengzwl@gmail.com
+	name = kengz
+[credential]
+	helper = osxkeychain
+[push]
+	default = simple
+[pager]
+	branch = false

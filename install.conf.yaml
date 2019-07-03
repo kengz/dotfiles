@@ -1,0 +1,23 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+    ~/.zsh:
+    ~/.zshrc:
+    ~/.gitconfig:
+
+- shell:
+  - git submodule sync --recursive
+  # the following have to run after linking ~/.gitconfig
+  - [git submodule update --init --recursive, Installing submodules]
+  - >
+    git clean -f
+    zsh/plugins/
+    zsh/themes/
+    zsh/
+  - cd fonts && ./install.sh

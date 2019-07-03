@@ -1,0 +1,57 @@
+#!/bin/bash --login
+# Install the bare essentials for a new Macbook
+
+# Fail on the first error; killable by SIGINT
+set -e
+trap "exit" INT
+
+echo "
+------------------------------------------------
+
+Installing basic packages for MacOS
+
+------------------------------------------------
+"
+
+echo "--- Installing brew ---"
+if which brew >/dev/null; then
+  echo "Brew is already installed"
+else
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+fi
+if brew cask --version | grep --quiet "Cask" >/dev/null; then
+  true
+else
+  brew tap caskroom/cask
+fi
+
+echo "--- Installing brew system dependencies ---"
+hb_list=(wget git cmake python3 node yarn)
+for item in "${hb_list[@]}"; do
+  brew info "${item}" | grep --quiet "Not installed" && brew install "${item}"
+done
+
+hb_list=(shiftit docker docker-toolbox)
+for item in "${hb_list[@]}"; do
+  brew info "${item}" | grep --quiet "Not installed" && brew install "${item}"
+done
+
+echo "--- Installing Conda ---"
+if which conda >/dev/null; then
+  echo "Conda is already installed"
+else
+  curl -O https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+  bash Miniconda3-latest-MacOSX-x86_64.sh -b
+  rm Miniconda3-latest-MacOSX-x86_64.sh
+fi
+
+# install xcode-select for many things. This is also idempotent
+xcode-select --install
+
+echo "
+------------------------------------------------
+
+Installation complete.
+
+------------------------------------------------
+"
