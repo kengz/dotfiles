@@ -77,3 +77,5 @@ unsetopt share_history
 
 # enable conda
 . ~/miniconda3/etc/profile.d/conda.sh
+
+# for alias, put an alias.zsh file into ~/.zsh/
