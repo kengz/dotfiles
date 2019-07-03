@@ -4,15 +4,14 @@ Basic Macbook setup and dotfiles.
 
 ## Usage
 
-#### Setup system dependencies
-
 ```bash
-curl -LOk https://github.com/kengz/dotfiles/archive/master.zip && unzip master.zip && mv dotfiles-master dotfiles && bash dotfiles/bin/setup
-```
+git clone https://github.com/kengz/dotfiles.git
+cd dotfiles
 
-#### Setup dotfiles
+# Setup system dependencies
+bin/setup
 
-```bash
+# Setup dotfiles
 ./install
 ```
 
