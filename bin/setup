@@ -33,7 +33,7 @@ done
 
 hb_list=(shiftit docker docker-toolbox)
 for item in "${hb_list[@]}"; do
-  brew info "${item}" | grep --quiet "Not installed" && brew install "${item}"
+  brew cask info "${item}" | grep --quiet "Not installed" && brew install "${item}"
 done
 
 echo "--- Installing Conda ---"
