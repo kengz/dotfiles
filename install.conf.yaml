@@ -10,6 +10,7 @@
     ~/.zsh:
     ~/.zshrc:
     ~/.gitconfig:
+    ~/.iterm2:
 
 - shell:
   - git submodule sync --recursive
