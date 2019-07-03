@@ -31,7 +31,7 @@ for item in "${hb_list[@]}"; do
   brew info "${item}" | grep --quiet "Not installed" && brew install "${item}"
 done
 
-hb_list=(shiftit docker docker-toolbox)
+hb_list=(shiftit docker)
 for item in "${hb_list[@]}"; do
   brew cask info "${item}" | grep --quiet "Not installed" && brew install "${item}"
 done
