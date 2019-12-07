@@ -62,6 +62,7 @@ ZSH_CUSTOM=~/.zsh
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  kubectl
   zsh-autosuggestions
   zsh-syntax-highlighting
   osx
