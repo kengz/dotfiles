@@ -2,7 +2,7 @@
 # Install the bare essentials for a new Macbook
 
 # Fail on the first error; killable by SIGINT
-set -e
+set -e -x
 trap "exit" INT
 
 echo "
@@ -19,11 +19,6 @@ if which brew >/dev/null; then
 else
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
-if brew cask --version | grep --quiet "Cask" >/dev/null; then
-  true
-else
-  brew tap caskroom/cask
-fi
 
 echo "--- Installing brew system dependencies ---"
 hb_list=(wget git cmake python3 node yarn)
@@ -33,7 +28,7 @@ done
 
 hb_list=(shiftit docker)
 for item in "${hb_list[@]}"; do
-  brew cask info "${item}" | grep --quiet "Not installed" && brew install "${item}"
+  brew cask info "${item}" | grep --quiet "Not installed" && brew cask install "${item}"
 done
 
 echo "--- Installing Conda ---"
