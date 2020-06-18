@@ -17,7 +17,7 @@ bin/setup
 
 The step above sets up the bare essentials for a new Macbook. Next, install the following manually:
 
-#### Manual setup
+### Manual setup
 
 - [Chrome](https://www.google.com/chrome/)
 - [VSCode](https://code.visualstudio.com/)
@@ -26,3 +26,11 @@ The step above sets up the bare essentials for a new Macbook. Next, install the 
 - [Bear](https://bear.app/)
 - [Dropbox](https://www.dropbox.com/install)
 - [Latex (small BasicTex)](http://www.tug.org/mactex/morepackages.html)
+
+### iTerm2
+
+Open preferences > General > Preferences > Load preference from a custom folder or URL
+
+### VSCode
+
+Sync settings from this gist id: `0e2e2936e5e577856b366b6e47c50ee6`
