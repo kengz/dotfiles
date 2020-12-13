@@ -79,4 +79,7 @@ unsetopt share_history
 # enable conda
 . ~/miniconda3/etc/profile.d/conda.sh
 
+# github cli completion
+eval "$(gh completion -s bash)"
+
 # for alias, put an alias.zsh file into ~/.zsh/

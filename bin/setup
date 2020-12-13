@@ -45,6 +45,9 @@ brew install zsh
 chsh -s /bin/zsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# install github cli
+brew install gh
+
 # install xcode-select for many things. This is also idempotent
 xcode-select --install
 
