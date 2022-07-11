@@ -9,7 +9,7 @@ export ZSH=~/.zsh/oh-my-zsh
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="spaceship-prompt/spaceship"
-SPACESHIP_KUBECTL_SHOW=true
+SPACESHIP_KUBECTL_SHOW=false
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_NODE_SHOW=false
 SPACESHIP_PACKAGE_SHOW=false
@@ -23,7 +23,7 @@ SPACESHIP_BATTERY_THRESHOLD=30
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -66,7 +66,7 @@ plugins=(
   kubectl
   zsh-autosuggestions
   zsh-syntax-highlighting
-  osx
+  macos
   helm
 )
 
@@ -81,3 +81,5 @@ unsetopt share_history
 . ~/miniconda3/etc/profile.d/conda.sh
 
 # for alias, put an alias.zsh file into ~/.zsh/
+
+eval $(thefuck --alias)

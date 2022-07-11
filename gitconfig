@@ -9,3 +9,7 @@
 	branch = false
 [pull]
 	rebase = false
+[diff]
+	tool = vscode
+[difftool "vscode"]
+	cmd = "code --wait --diff  "
