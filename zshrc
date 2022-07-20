@@ -81,5 +81,3 @@ unsetopt share_history
 . ~/miniconda3/etc/profile.d/conda.sh
 
 # for alias, put an alias.zsh file into ~/.zsh/
-
-eval $(thefuck --alias)
