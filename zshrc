@@ -77,7 +77,5 @@ source $ZSH/oh-my-zsh.sh
 unsetopt inc_append_history
 unsetopt share_history
 
-# enable conda
-. ~/miniconda3/etc/profile.d/conda.sh
-
+. /opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh
 # for alias, put an alias.zsh file into ~/.zsh/

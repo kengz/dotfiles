@@ -17,39 +17,30 @@ echo "--- Installing brew ---"
 if which brew >/dev/null; then
   echo "Brew is already installed"
 else
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/keng/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 echo "--- Installing brew system dependencies ---"
-hb_list=(wget git cmake python3 node yarn)
+hb_list=(wget git gcc cmake python3 node yarn gh)
 for item in "${hb_list[@]}"; do
-  brew info "${item}" | grep --quiet "Not installed" && brew install "${item}"
+  brew install "${item}"
 done
 
-hb_list=(shiftit docker)
+hb_list=(shiftit iterm2 visual-studio-code google-chrome miniforge)
 for item in "${hb_list[@]}"; do
-  brew cask info "${item}" | grep --quiet "Not installed" && brew cask install "${item}"
+  brew install --cask "${item}"
 done
-
-echo "--- Installing Conda ---"
-if which conda >/dev/null; then
-  echo "Conda is already installed"
-else
-  wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-  bash Miniconda3-latest-MacOSX-x86_64.sh -b
-  rm Miniconda3-latest-MacOSX-x86_64.sh
-fi
 
 # install zsh
 brew install zsh
-chsh -s /bin/zsh
-sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-# install github cli
-brew install gh
-
-# install xcode-select for many things. This is also idempotent
-xcode-select --install
+if [ ! -f ~/.zshrc ];then
+  chsh -s /bin/zsh
+fi
+if [ ! -d ~/.oh-my-zsh ];then
+  sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
 
 echo "
 ------------------------------------------------
