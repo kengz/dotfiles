@@ -77,5 +77,8 @@ source $ZSH/oh-my-zsh.sh
 unsetopt inc_append_history
 unsetopt share_history
 
-. /opt/homebrew/Caskroom/miniforge/base/etc/profile.d/conda.sh
 # for alias, put an alias.zsh file into ~/.zsh/
+alias kge='kubectl get events --sort-by=.metadata.creationTimestamp'
+alias klp='kubectl logs --previous'
+
+. "$HOME/.local/bin/env"
