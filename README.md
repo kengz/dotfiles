@@ -21,10 +21,7 @@ The step above sets up the bare essentials for a new Macbook. Next, install the 
 
 - [1Password](https://1password.com/downloads/mac/)
 - [Bear](https://bear.app/)
-
-### iTerm2
-
-Open preferences > General > Preferences > Load preference from a custom folder or URL
+- [Ghostty](https://ghostty.org/)
 
 ### VSCode
 
