@@ -1,3 +1,6 @@
+# Homebrew
+eval "$(~/homebrew/bin/brew shellenv)"
+
 # History
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
