@@ -1,8 +1,8 @@
 [user]
 	email = kengzwl@gmail.com
 	name = kengz
-[credential]
-	helper = osxkeychain
+[credential "https://github.com"]
+	helper = !gh auth git-credential
 [push]
 	default = simple
 [pager]
