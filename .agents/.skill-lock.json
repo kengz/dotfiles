@@ -1,0 +1,96 @@
+{
+  "version": 3,
+  "skills": {
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-24T22:24:58.007Z",
+      "updatedAt": "2026-03-25T01:16:42.275Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-24T22:25:01.938Z",
+      "updatedAt": "2026-03-25T01:16:26.982Z"
+    },
+    "git-commit": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/git-commit/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-25T01:13:38.169Z",
+      "updatedAt": "2026-03-25T01:13:38.169Z"
+    },
+    "gh-cli": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/gh-cli/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-25T01:13:46.563Z",
+      "updatedAt": "2026-03-25T01:13:46.563Z"
+    },
+    "refactor": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/refactor/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-25T01:14:41.763Z",
+      "updatedAt": "2026-03-25T01:14:41.763Z"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "skillFolderHash": "",
+      "pluginName": "example-skills",
+      "installedAt": "2026-03-25T01:15:07.209Z",
+      "updatedAt": "2026-03-25T01:15:07.209Z"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "skillFolderHash": "",
+      "pluginName": "example-skills",
+      "installedAt": "2026-03-25T01:15:53.362Z",
+      "updatedAt": "2026-03-25T01:15:53.362Z"
+    },
+    "dstack": {
+      "source": "dstackai/dstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dstackai/dstack.git",
+      "skillPath": "skills/dstack/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-03-25T01:25:07.756Z",
+      "updatedAt": "2026-03-25T01:25:07.756Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code"
+  ]
+}
