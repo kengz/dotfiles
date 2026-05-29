@@ -1,8 +1,8 @@
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
 
-# Homebrew
-eval "$(~/homebrew/bin/brew shellenv)"
+# Homebrew (user-prefix on Mac; absent on beasts)
+[ -x "$HOME/homebrew/bin/brew" ] && eval "$($HOME/homebrew/bin/brew shellenv)"
 
 # History
 HISTFILE=~/.zsh_history
