@@ -15,65 +15,56 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/skills.git",
       "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "d31e234f0c90694a670222cdd1dafa853e051d7066beda389f1097c22dadd461",
       "installedAt": "2026-03-24T22:25:01.938Z",
-      "updatedAt": "2026-03-25T01:16:26.982Z"
+      "updatedAt": "2026-05-29T11:42:51.831Z"
     },
     "git-commit": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
       "sourceUrl": "https://github.com/github/awesome-copilot.git",
       "skillPath": "skills/git-commit/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "2607fc60629b82b257136dd2a7a373f0a4466c0b49df7746d845d59313c99b21",
       "installedAt": "2026-03-25T01:13:38.169Z",
-      "updatedAt": "2026-03-25T01:13:38.169Z"
-    },
-    "gh-cli": {
-      "source": "github/awesome-copilot",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/github/awesome-copilot.git",
-      "skillPath": "skills/gh-cli/SKILL.md",
-      "skillFolderHash": "",
-      "installedAt": "2026-03-25T01:13:46.563Z",
-      "updatedAt": "2026-03-25T01:13:46.563Z"
+      "updatedAt": "2026-05-29T11:42:54.414Z"
     },
     "refactor": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
       "sourceUrl": "https://github.com/github/awesome-copilot.git",
       "skillPath": "skills/refactor/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "87789a786b96f99ba0680e89345a975106e10e7db1071c7cdc2e76d507c449d6",
       "installedAt": "2026-03-25T01:14:41.763Z",
-      "updatedAt": "2026-03-25T01:14:41.763Z"
+      "updatedAt": "2026-05-29T11:42:54.415Z"
     },
     "frontend-design": {
       "source": "anthropics/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
       "skillPath": "skills/frontend-design/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67",
       "pluginName": "example-skills",
       "installedAt": "2026-03-25T01:15:07.209Z",
-      "updatedAt": "2026-03-25T01:15:07.209Z"
+      "updatedAt": "2026-05-29T11:42:55.395Z"
     },
     "skill-creator": {
       "source": "anthropics/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
       "skillPath": "skills/skill-creator/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "5ea13a6d9f0d4bb694405d79acd00cadec0d21bb138c4dd10fcf3c500cb835c2",
       "pluginName": "example-skills",
       "installedAt": "2026-03-25T01:15:53.362Z",
-      "updatedAt": "2026-03-25T01:15:53.362Z"
+      "updatedAt": "2026-05-29T11:42:55.397Z"
     },
     "dstack": {
       "source": "dstackai/dstack",
       "sourceType": "github",
       "sourceUrl": "https://github.com/dstackai/dstack.git",
       "skillPath": "skills/dstack/SKILL.md",
-      "skillFolderHash": "",
+      "skillFolderHash": "3ae8198766aa07a22cc6e009bd5d9b8685c785454130cf912409091b920f9dfa",
       "installedAt": "2026-03-25T01:25:07.756Z",
-      "updatedAt": "2026-03-25T01:25:07.756Z"
+      "updatedAt": "2026-05-29T11:42:57.138Z"
     }
   },
   "dismissed": {

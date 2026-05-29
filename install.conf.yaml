@@ -66,17 +66,22 @@
       data = json.load(open(lock))
       by_source = {}
       for name, info in data.get("skills", {}).items():
-          src = info["source"]
-          sp = info.get("skillPath", "")
-          parts = sp.split("/")
-          remote = parts[1] if len(parts) >= 3 and parts[0] == "skills" else name
-          by_source.setdefault(src, set()).add(remote)
+          by_source.setdefault(info["source"], set()).add(name)
+      failed = []
       for src, skills in by_source.items():
           args = ["npx", "--yes", "skills", "add", "-g", src, "--copy", "--yes"]
           for s in sorted(skills):
               args += ["--skill", s]
           print(f"  {src}: {sorted(skills)}", flush=True)
-          subprocess.run(args, check=False)
+          r = subprocess.run(args, capture_output=True, text=True)
+          combined = r.stdout + r.stderr
+          if r.returncode != 0 or "No matching skills" in combined:
+              failed.append((src, sorted(skills)))
+              # last few lines of stderr for diagnosis
+              tail = "\n".join(l for l in combined.splitlines() if l.strip())[-300:]
+              print(f"    [warn] partial/failed: {tail}", flush=True)
+      if failed:
+          print(f"  → {len(failed)} source(s) had install issues (upstream may have renamed/removed skills)", flush=True)
       PY
   - git submodule sync --recursive
   # the following have to run after linking ~/.gitconfig
