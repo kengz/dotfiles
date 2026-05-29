@@ -61,23 +61,29 @@
       python3 - <<'PY'
       import json, os, subprocess, sys
       lock = os.path.expanduser("~/.agents/.skill-lock.json")
+      skills_dir = os.path.expanduser("~/.agents/skills")
       if not os.path.exists(lock):
           print("no ~/.agents/.skill-lock.json — skipping"); sys.exit(0)
       data = json.load(open(lock))
-      by_source = {}
+      # Only install skills MISSING locally — npx writes hashes back to the lock
+      # on every add, so a no-op re-install would cause spurious dotfiles diffs.
+      missing_by_source = {}
       for name, info in data.get("skills", {}).items():
-          by_source.setdefault(info["source"], set()).add(name)
+          if not os.path.exists(f"{skills_dir}/{name}/SKILL.md"):
+              missing_by_source.setdefault(info["source"], set()).add(name)
+      if not missing_by_source:
+          print("  all skills already installed — no-op")
+          sys.exit(0)
       failed = []
-      for src, skills in by_source.items():
+      for src, skills in missing_by_source.items():
           args = ["npx", "--yes", "skills", "add", "-g", src, "--copy", "--yes"]
           for s in sorted(skills):
               args += ["--skill", s]
-          print(f"  {src}: {sorted(skills)}", flush=True)
+          print(f"  installing {src}: {sorted(skills)}", flush=True)
           r = subprocess.run(args, capture_output=True, text=True)
           combined = r.stdout + r.stderr
           if r.returncode != 0 or "No matching skills" in combined:
               failed.append((src, sorted(skills)))
-              # last few lines of stderr for diagnosis
               tail = "\n".join(l for l in combined.splitlines() if l.strip())[-300:]
               print(f"    [warn] partial/failed: {tail}", flush=True)
       if failed:
