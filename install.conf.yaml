@@ -23,6 +23,11 @@
 - shell:
   - description: install ~/.claude/settings.json as a per-machine copy
     command: |
+      # Migrate from any prior symlink (older install.conf.yaml symlinked this).
+      if [ -L ~/.claude/settings.json ]; then
+        rm ~/.claude/settings.json
+        echo "removed legacy symlink → will install fresh copy"
+      fi
       if [ ! -f ~/.claude/settings.json ]; then
         cp .claude/settings.json ~/.claude/settings.json
         echo "installed ~/.claude/settings.json (fresh copy)"
