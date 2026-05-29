@@ -11,10 +11,24 @@
     ~/.zshrc:
     ~/.gitconfig:
     ~/.tmux.conf: tmux.conf
-    ~/.claude/settings.json: .claude/settings.json
     ~/.agents: .agents
 
+- create:
+    - ~/.claude
+
+# ~/.claude/settings.json is COPIED (not symlinked) so per-machine writes
+# (e.g. /theme picker, /model switch) stay local and don't pollute this repo.
+# To pick up upstream changes on an existing machine, delete ~/.claude/settings.json
+# then re-run ./install.
 - shell:
+  - description: install ~/.claude/settings.json as a per-machine copy
+    command: |
+      if [ ! -f ~/.claude/settings.json ]; then
+        cp .claude/settings.json ~/.claude/settings.json
+        echo "installed ~/.claude/settings.json (fresh copy)"
+      else
+        echo "~/.claude/settings.json already exists (kept local copy)"
+      fi
   - git submodule sync --recursive
   # the following have to run after linking ~/.gitconfig
   - [git submodule update --init --recursive, Installing submodules]
