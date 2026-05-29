@@ -5,35 +5,73 @@
 
 - clean: ['~']
 
+# Migrations FIRST — break any legacy symlinks before dotbot tries to link
+# new targets inside them (would resolve through the old symlink into the repo).
+- shell:
+  - description: migrate legacy ~/.agents symlink → per-machine dir
+    command: |
+      if [ -L ~/.agents ]; then
+        rm ~/.agents
+        echo "removed legacy ~/.agents symlink — will repopulate via npx skills"
+      fi
+  - description: migrate legacy ~/.claude/settings.json symlink → per-machine copy
+    command: |
+      if [ -L ~/.claude/settings.json ]; then
+        rm ~/.claude/settings.json
+        echo "removed legacy settings.json symlink — will install fresh copy"
+      fi
+
+- create:
+    - ~/.claude
+    - ~/.agents
+
 - link:
     ~/.dotfiles: ''
     ~/.zsh:
     ~/.zshrc:
     ~/.gitconfig:
     ~/.tmux.conf: tmux.conf
-    ~/.agents: .agents
+    # Share JUST the skills manifest — skill content lives at ~/.agents/skills/
+    # as a per-machine dir populated by `npx skills` from this lock. To propagate
+    # additions: `npx skills add -g …` on Mac writes the lock; commit + push;
+    # other machines `git pull && ./install` to re-sync.
+    ~/.agents/.skill-lock.json: .agents/.skill-lock.json
 
-- create:
-    - ~/.claude
-
-# ~/.claude/settings.json is COPIED (not symlinked) so per-machine writes
-# (e.g. /theme picker, /model switch) stay local and don't pollute this repo.
-# To pick up upstream changes on an existing machine, delete ~/.claude/settings.json
-# then re-run ./install.
 - shell:
   - description: install ~/.claude/settings.json as a per-machine copy
     command: |
-      # Migrate from any prior symlink (older install.conf.yaml symlinked this).
-      if [ -L ~/.claude/settings.json ]; then
-        rm ~/.claude/settings.json
-        echo "removed legacy symlink → will install fresh copy"
-      fi
       if [ ! -f ~/.claude/settings.json ]; then
         cp .claude/settings.json ~/.claude/settings.json
         echo "installed ~/.claude/settings.json (fresh copy)"
       else
         echo "~/.claude/settings.json already exists (kept local copy)"
       fi
+  - description: restore global skills from ~/.agents/.skill-lock.json via npx skills
+    command: |
+      if ! command -v npx >/dev/null 2>&1; then
+        echo "npx not found — skipping skills restore (install Node first)"
+        exit 0
+      fi
+      python3 - <<'PY'
+      import json, os, subprocess, sys
+      lock = os.path.expanduser("~/.agents/.skill-lock.json")
+      if not os.path.exists(lock):
+          print("no ~/.agents/.skill-lock.json — skipping"); sys.exit(0)
+      data = json.load(open(lock))
+      by_source = {}
+      for name, info in data.get("skills", {}).items():
+          src = info["source"]
+          sp = info.get("skillPath", "")
+          parts = sp.split("/")
+          remote = parts[1] if len(parts) >= 3 and parts[0] == "skills" else name
+          by_source.setdefault(src, set()).add(remote)
+      for src, skills in by_source.items():
+          args = ["npx", "--yes", "skills", "add", "-g", src, "--copy", "--yes"]
+          for s in sorted(skills):
+              args += ["--skill", s]
+          print(f"  {src}: {sorted(skills)}", flush=True)
+          subprocess.run(args, check=False)
+      PY
   - git submodule sync --recursive
   # the following have to run after linking ~/.gitconfig
   - [git submodule update --init --recursive, Installing submodules]

@@ -1,2 +1,6 @@
 alias.zsh
 .DS_Store
+
+# Skills content is per-machine — installed by `npx skills` from .skill-lock.json.
+# Only the lock file is tracked.
+.agents/skills/

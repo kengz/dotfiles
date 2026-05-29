@@ -26,3 +26,10 @@ SPACESHIP_BATTERY_THRESHOLD=30
 # Plugins
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Attach to the persistent claude tmux session on a beast.
+# Usage: ssh-claude          → beast4 (default)
+#        ssh-claude beast3   → beast3
+ssh-claude() {
+  ssh "${1:-beast4}" -t 'tmux att -t claude'
+}
