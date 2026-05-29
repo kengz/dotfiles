@@ -88,6 +88,13 @@
               print(f"    [warn] partial/failed: {tail}", flush=True)
       if failed:
           print(f"  → {len(failed)} source(s) had install issues (upstream may have renamed/removed skills)", flush=True)
+      # Reset auto-written fields (skillFolderHash, updatedAt) so this dotbot
+      # run doesn't leave a dirty git status. Intentional additions are
+      # expected to be committed before the next install, so they survive.
+      real_lock = os.path.realpath(lock)
+      repo_dir = os.path.dirname(os.path.dirname(real_lock))
+      subprocess.run(["git", "-C", repo_dir, "checkout", "--", real_lock],
+                     check=False, capture_output=True)
       PY
   - git submodule sync --recursive
   # the following have to run after linking ~/.gitconfig
