@@ -28,8 +28,11 @@ source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Attach to the persistent claude tmux session on a beast.
+# Idempotent: attaches if the session exists, creates+starts claude if not
+# (matches the systemd --user unit, but works even if that unit is down or
+# the session was killed).
 # Usage: ssh-claude          → beast4 (default)
 #        ssh-claude beast3   → beast3
 ssh-claude() {
-  ssh "${1:-beast4}" -t 'tmux att -t claude'
+  ssh "${1:-beast4}" -t "tmux new -As claude 'bash -lc claude'"
 }
