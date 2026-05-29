@@ -35,10 +35,14 @@
     # as a per-machine dir populated by `npx skills` from this lock. To propagate
     # additions: `npx skills add -g …` on Mac writes the lock; commit + push;
     # other machines `git pull && ./install` to re-sync.
-    ~/.agents/.skill-lock.json: .agents/.skill-lock.json
+    ~/.agents/.skill-lock.json:
+      path: .agents/.skill-lock.json
+      force: true
 
 - shell:
   - description: install ~/.claude/settings.json as a per-machine copy
+    stdout: true
+    stderr: true
     command: |
       if [ ! -f ~/.claude/settings.json ]; then
         cp .claude/settings.json ~/.claude/settings.json
@@ -47,6 +51,8 @@
         echo "~/.claude/settings.json already exists (kept local copy)"
       fi
   - description: restore global skills from ~/.agents/.skill-lock.json via npx skills
+    stdout: true
+    stderr: true
     command: |
       if ! command -v npx >/dev/null 2>&1; then
         echo "npx not found — skipping skills restore (install Node first)"
