@@ -20,8 +20,8 @@ Symlinks (managed by dotbot — edits propagate via `git pull && ./install`):
 - `~/.dotfiles` → repo root
 - `~/.tmux.conf` → `tmux.conf` (login-shell default-command, `allow-passthrough` guarded behind tmux ≥ 3.3, Claude Code passthrough/extkeys)
 - `~/.gitconfig` → `gitconfig` (credential helper `!gh auth git-credential` — portable, no `osxkeychain`)
-- `~/.zsh` / `~/.zshrc` → `zsh/` / `zshrc` (Mac shell config; `ssh-claude` helper at the bottom)
-- `~/.agents/.skill-lock.json` → `.agents/.skill-lock.json` (skill manifest — shared)
+- `~/.zsh` / `~/.zshrc` → `zsh/` / `zshrc` (shell config on Mac + beasts; `brew shellenv` is guarded so beasts skip it. Mac-only: the `ssh-claude` helper at the bottom — `ssh-claude` attaches `beast4`'s persistent claude tmux session, `ssh-claude beast3` targets another box.)
+- `~/.agents/.skill-lock.json` → `.agents/.skill-lock.json` (skill manifest — the **only** skill data tracked in the repo)
 
 Per-machine copies (NOT symlinked — local edits stay local):
 - `~/.claude/settings.json` ← copied from `.claude/settings.json` on first install.
@@ -30,10 +30,12 @@ Per-machine copies (NOT symlinked — local edits stay local):
   ./install`.
 
 Per-machine populated (NOT in repo):
-- `~/.agents/skills/*` ← installed by `npx skills add -g …` from the lock file
-  during `./install`. Each box has its own current copy. To add a new skill
-  globally: `npx skills add -g <source> --skill <name>` on Mac → lock file
-  updates → commit + push → on each box `git pull && ./install` re-syncs.
+- `~/.agents/skills/*` ← skill content is **un-vendored**. `./install` reads
+  `~/.agents/.skill-lock.json` and runs `npx skills add -g <source> --skill <name>`
+  for any skill **missing** locally (already-present skills are skipped, so re-runs
+  are true no-ops with no git drift). To add a new skill fleet-wide: run
+  `npx skills add -g <source> --skill <name>` on Mac → lock updates → commit + push
+  → on each box `git pull && ./install` pulls just the new entry.
 
 ## Fleet workflow
 
