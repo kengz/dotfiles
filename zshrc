@@ -27,16 +27,10 @@ SPACESHIP_BATTERY_THRESHOLD=30
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Attach to the persistent claude tmux session on a beast, in its assigned
-# project. Thin alias to `fleet attach` (chief's control plane — see
-# ~/projects/chief/.claude/skills/fleet), so you and chief drive the same
-# session the same way (parity). Falls back to a direct attach if fleet is absent.
-# Usage: ssh-claude          → beast4 (default)
-#        ssh-claude beast3   → beast3
-ssh-claude() {
-  if command -v fleet >/dev/null 2>&1; then fleet attach "${1:-beast4}"
-  else ssh "${1:-beast4}" -t "tmux new -As claude 'bash -lc claude'"; fi
-}
+# Fleet control moved to the `claude-fleet` CLI (its own repo/plugin:
+# ~/projects/claude-fleet). `claude-fleet attach <host>` replaces the old
+# ssh-claude helper — one command for attach, status, send, up. Driven the same
+# way by you and by chief (parity).
 
 # Auto-trust the current dir before launching claude so the workspace-trust
 # dialog never interrupts. Pairs with `"defaultMode": "bypassPermissions"`
