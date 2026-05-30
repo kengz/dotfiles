@@ -36,3 +36,26 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ssh-claude() {
   ssh "${1:-beast4}" -t "tmux new -As claude 'bash -lc claude'"
 }
+
+# Auto-trust the current dir before launching claude so the workspace-trust
+# dialog never interrupts. Pairs with `"defaultMode": "bypassPermissions"`
+# in ~/.claude/settings.json — together: zero prompts, anywhere.
+claude() {
+  python3 - "$PWD" <<'PY'
+import json, os, sys
+p = os.path.expanduser("~/.claude.json")
+try: d = json.load(open(p))
+except Exception: d = {}
+proj = d.setdefault("projects", {})
+entry = proj.setdefault(sys.argv[1], {
+  "allowedTools": [], "mcpContextUris": [], "mcpServers": {},
+  "enabledMcpjsonServers": [], "disabledMcpjsonServers": [],
+  "projectOnboardingSeenCount": 1,
+  "hasClaudeMdExternalIncludesApproved": False,
+  "hasClaudeMdExternalIncludesWarningShown": False,
+})
+entry["hasTrustDialogAccepted"] = True
+json.dump(d, open(p, "w"), indent=2)
+PY
+  command claude "$@"
+}
