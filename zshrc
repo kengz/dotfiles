@@ -40,21 +40,23 @@ ssh-claude() {
 # Auto-trust the current dir before launching claude so the workspace-trust
 # dialog never interrupts. Pairs with `"defaultMode": "bypassPermissions"`
 # in ~/.claude/settings.json — together: zero prompts, anywhere.
+# Safe-fails: if ~/.claude.json is missing or unreadable, just exec claude (claude
+# itself will then prompt once — better than wiping the file with `{}`).
 claude() {
-  python3 - "$PWD" <<'PY'
+  python3 - "$PWD" <<'PY' 2>/dev/null || true
 import json, os, sys
 p = os.path.expanduser("~/.claude.json")
-try: d = json.load(open(p))
-except Exception: d = {}
-proj = d.setdefault("projects", {})
-entry = proj.setdefault(sys.argv[1], {
+if not os.path.exists(p):
+    sys.exit(0)
+d = json.load(open(p))   # let JSONDecodeError exit nonzero — DO NOT clobber
+proj = d.setdefault("projects", {}).setdefault(sys.argv[1], {
   "allowedTools": [], "mcpContextUris": [], "mcpServers": {},
   "enabledMcpjsonServers": [], "disabledMcpjsonServers": [],
   "projectOnboardingSeenCount": 1,
   "hasClaudeMdExternalIncludesApproved": False,
   "hasClaudeMdExternalIncludesWarningShown": False,
 })
-entry["hasTrustDialogAccepted"] = True
+proj["hasTrustDialogAccepted"] = True
 json.dump(d, open(p, "w"), indent=2)
 PY
   command claude "$@"

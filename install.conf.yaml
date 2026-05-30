@@ -5,22 +5,6 @@
 
 - clean: ['~']
 
-# Migrations FIRST — break any legacy symlinks before dotbot tries to link
-# new targets inside them (would resolve through the old symlink into the repo).
-- shell:
-  - description: migrate legacy ~/.agents symlink → per-machine dir
-    command: |
-      if [ -L ~/.agents ]; then
-        rm ~/.agents
-        echo "removed legacy ~/.agents symlink — will repopulate via npx skills"
-      fi
-  - description: migrate legacy ~/.claude/settings.json symlink → per-machine copy
-    command: |
-      if [ -L ~/.claude/settings.json ]; then
-        rm ~/.claude/settings.json
-        echo "removed legacy settings.json symlink — will install fresh copy"
-      fi
-
 - create:
     - ~/.claude
     - ~/.agents
@@ -31,72 +15,49 @@
     ~/.zshrc:
     ~/.gitconfig:
     ~/.tmux.conf: tmux.conf
-    # Share JUST the skills manifest — skill content lives at ~/.agents/skills/
-    # as a per-machine dir populated by `npx skills` from this lock. To propagate
-    # additions: `npx skills add -g …` on Mac writes the lock; commit + push;
-    # other machines `git pull && ./install` to re-sync.
+    # Share just the manifest. Skill content goes to ~/.agents/skills/ per-machine.
     ~/.agents/.skill-lock.json:
       path: .agents/.skill-lock.json
       force: true
 
 - shell:
-  - description: install ~/.claude/settings.json as a per-machine copy
+  # settings.json is COPIED (not symlinked) so per-machine /theme & /model writes
+  # stay local. To pick up upstream changes: delete the local file + re-install.
+  - description: install ~/.claude/settings.json (per-machine copy)
     stdout: true
     stderr: true
     command: |
       if [ ! -f ~/.claude/settings.json ]; then
         cp .claude/settings.json ~/.claude/settings.json
-        echo "installed ~/.claude/settings.json (fresh copy)"
-      else
-        echo "~/.claude/settings.json already exists (kept local copy)"
+        echo "installed ~/.claude/settings.json"
       fi
-  - description: restore global skills from ~/.agents/.skill-lock.json via npx skills
+
+  # Restore skills from the manifest via `npx skills`. Only installs MISSING
+  # entries — repeat runs are no-ops. (npx writes hashes back to the lock on
+  # any add; rare drift on a fresh box is harmless on a beast.)
+  - description: restore skills from ~/.agents/.skill-lock.json
     stdout: true
     stderr: true
     command: |
-      if ! command -v npx >/dev/null 2>&1; then
-        echo "npx not found — skipping skills restore (install Node first)"
-        exit 0
-      fi
+      command -v npx >/dev/null || { echo "npx missing — install Node, then re-run"; exit 0; }
       python3 - <<'PY'
       import json, os, subprocess, sys
       lock = os.path.expanduser("~/.agents/.skill-lock.json")
-      skills_dir = os.path.expanduser("~/.agents/skills")
-      if not os.path.exists(lock):
-          print("no ~/.agents/.skill-lock.json — skipping"); sys.exit(0)
+      skills = os.path.expanduser("~/.agents/skills")
       data = json.load(open(lock))
-      # Only install skills MISSING locally — npx writes hashes back to the lock
-      # on every add, so a no-op re-install would cause spurious dotfiles diffs.
-      missing_by_source = {}
+      missing = {}
       for name, info in data.get("skills", {}).items():
-          if not os.path.exists(f"{skills_dir}/{name}/SKILL.md"):
-              missing_by_source.setdefault(info["source"], set()).add(name)
-      if not missing_by_source:
-          print("  all skills already installed — no-op")
-          sys.exit(0)
-      failed = []
-      for src, skills in missing_by_source.items():
+          if not os.path.exists(f"{skills}/{name}/SKILL.md"):
+              missing.setdefault(info["source"], []).append(name)
+      if not missing:
+          print("  all skills installed"); sys.exit(0)
+      for src, names in missing.items():
           args = ["npx", "--yes", "skills", "add", "-g", src, "--copy", "--yes"]
-          for s in sorted(skills):
-              args += ["--skill", s]
-          print(f"  installing {src}: {sorted(skills)}", flush=True)
-          r = subprocess.run(args, capture_output=True, text=True)
-          combined = r.stdout + r.stderr
-          if r.returncode != 0 or "No matching skills" in combined:
-              failed.append((src, sorted(skills)))
-              tail = "\n".join(l for l in combined.splitlines() if l.strip())[-300:]
-              print(f"    [warn] partial/failed: {tail}", flush=True)
-      if failed:
-          print(f"  → {len(failed)} source(s) had install issues (upstream may have renamed/removed skills)", flush=True)
-      # Reset auto-written fields (skillFolderHash, updatedAt) so this dotbot
-      # run doesn't leave a dirty git status. Intentional additions are
-      # expected to be committed before the next install, so they survive.
-      real_lock = os.path.realpath(lock)
-      repo_dir = os.path.dirname(os.path.dirname(real_lock))
-      subprocess.run(["git", "-C", repo_dir, "checkout", "--", real_lock],
-                     check=False, capture_output=True)
+          for n in sorted(names): args += ["--skill", n]
+          print(f"  installing {src}: {sorted(names)}")
+          subprocess.run(args, check=False)
       PY
+
   - git submodule sync --recursive
-  # the following have to run after linking ~/.gitconfig
   - [git submodule update --init --recursive, Installing submodules]
   - cd fonts && ./install.sh

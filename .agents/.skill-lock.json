@@ -65,6 +65,15 @@
       "skillFolderHash": "3ae8198766aa07a22cc6e009bd5d9b8685c785454130cf912409091b920f9dfa",
       "installedAt": "2026-03-25T01:25:07.756Z",
       "updatedAt": "2026-05-29T11:42:57.138Z"
+    },
+    "good-code": {
+      "source": "kengz/good-code",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/kengz/good-code.git",
+      "skillPath": "skills/good-code/SKILL.md",
+      "skillFolderHash": "577c4fa6de9f2bf480e70391b4ddebc4181cd898d58e21c1c38888d6c0555317",
+      "installedAt": "2026-05-30T02:40:13.439Z",
+      "updatedAt": "2026-05-30T02:40:13.439Z"
     }
   },
   "dismissed": {
