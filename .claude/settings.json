@@ -5,8 +5,5 @@
   },
   "permissions": {
     "defaultMode": "bypassPermissions"
-  },
-  "effortLevel": "xhigh",
-  "skipDangerousModePermissionPrompt": true,
-  "skipAutoPermissionPrompt": true
+  }
 }

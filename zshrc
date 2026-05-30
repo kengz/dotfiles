@@ -34,7 +34,7 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Usage: ssh-claude          → beast4 (default)
 #        ssh-claude beast3   → beast3
 ssh-claude() {
-  ssh "${1:-beast4}" -t "tmux new -As claude 'bash -lc claude'"
+  ssh "${1:-beast4}" -t "tmux new -As claude bash -lc 'cd ~/projects/chief 2>/dev/null; exec claude'"
 }
 
 # Auto-trust the current dir before launching claude so the workspace-trust
@@ -61,3 +61,6 @@ json.dump(d, open(p, "w"), indent=2)
 PY
   command claude "$@"
 }
+
+# chief — jump to the chief vault (the entry point to everything) and launch claude there.
+chief() { cd ~/projects/chief && claude "$@"; }
