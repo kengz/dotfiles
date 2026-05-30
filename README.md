@@ -20,7 +20,7 @@ Symlinks (managed by dotbot — edits propagate via `git pull && ./install`):
 - `~/.dotfiles` → repo root
 - `~/.tmux.conf` → `tmux.conf` (login-shell default-command, `allow-passthrough` guarded behind tmux ≥ 3.3, Claude Code passthrough/extkeys)
 - `~/.gitconfig` → `gitconfig` (credential helper `!gh auth git-credential` — portable, no `osxkeychain`)
-- `~/.zsh` / `~/.zshrc` → `zsh/` / `zshrc` (shell config on Mac + beasts; `brew shellenv` is guarded so beasts skip it. Mac-only: the `ssh-claude` helper at the bottom — `ssh-claude` attaches `beast4`'s persistent claude tmux session, `ssh-claude beast3` targets another box.)
+- `~/.zsh` / `~/.zshrc` → `zsh/` / `zshrc` (shell config on Mac + beasts; `brew shellenv` is guarded so beasts skip it. Remote-session control moved out of here to the [`claude-fleet`](https://github.com/kengz/claude-fleet) CLI — `claude-fleet attach <host>` replaces the retired `ssh-claude` helper.)
 - `~/.agents/.skill-lock.json` → `.agents/.skill-lock.json` (skill manifest — the **only** skill data tracked in the repo)
 
 Per-machine copies (NOT symlinked — local edits stay local):
