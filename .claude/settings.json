@@ -4,7 +4,7 @@
     "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "1000000"
   },
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "bypassPermissions"
   },
   "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true,
