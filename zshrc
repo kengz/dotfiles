@@ -1,5 +1,7 @@
 # PATH
 export PATH="$HOME/.local/bin:$PATH"
+# npm user-prefix (where claude-code installs on the boxes; absent/ignored on Mac)
+[ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
 
 # Homebrew (user-prefix on Mac; absent on beasts)
 [ -x "$HOME/homebrew/bin/brew" ] && eval "$($HOME/homebrew/bin/brew shellenv)"
