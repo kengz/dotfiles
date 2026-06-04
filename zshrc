@@ -27,10 +27,13 @@ SPACESHIP_BATTERY_THRESHOLD=30
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# Fleet control moved to the `claude-fleet` CLI (its own repo/plugin:
-# ~/projects/claude-fleet). `claude-fleet attach <host>` replaces the old
-# ssh-claude helper — one command for attach, status, send, up. Driven the same
-# way by you and by chief (parity).
+# Fleet control is the `claude-fleet` CLI (its own repo/plugin). `claude-fleet
+# attach <host>` replaces the old ssh-claude helper — attach, status, send, up;
+# driven the same way by you and by chief (parity). Put its bin on PATH directly
+# (no symlink — reproducible across machines); takes whichever clone is present.
+for d in "$HOME/projects/private-claude-fleet/bin" "$HOME/projects/claude-fleet/bin"; do
+  [ -d "$d" ] && export PATH="$d:$PATH"
+done
 
 # Auto-trust the current dir before launching claude so the workspace-trust
 # dialog never interrupts. Pairs with `"defaultMode": "bypassPermissions"`
@@ -58,4 +61,10 @@ PY
 }
 
 # chief — jump to the chief vault (the entry point to everything) and launch claude there.
-chief() { cd ~/projects/chief && claude "$@"; }
+# Takes whichever clone is present (command center vs a box), so it's machine-agnostic.
+chief() {
+  for d in "$HOME/projects/private-chief" "$HOME/projects/chief"; do
+    [ -d "$d" ] && { cd "$d" && claude "$@"; return; }
+  done
+  echo "chief: no vault found (~/projects/private-chief or ~/projects/chief)" >&2
+}
