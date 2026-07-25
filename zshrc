@@ -1,7 +1,4 @@
-# PATH
-export PATH="$HOME/.local/bin:$PATH"
-# npm user-prefix (where claude-code installs on the boxes; absent/ignored on Mac)
-[ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
+# PATH — tool paths live in ~/.zshenv (read by non-interactive shells too)
 
 # Homebrew (user-prefix on Mac; absent on beasts)
 [ -x "$HOME/homebrew/bin/brew" ] && eval "$($HOME/homebrew/bin/brew shellenv)"
@@ -31,11 +28,8 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Fleet control is the `claude-fleet` CLI (its own repo/plugin). `claude-fleet
 # attach <host>` replaces the old ssh-claude helper — attach, status, send, up;
-# driven the same way by you and by chief (parity). Put its bin on PATH directly
-# (no symlink — reproducible across machines); takes whichever clone is present.
-for d in "$HOME/projects/private-claude-fleet/bin" "$HOME/projects/claude-fleet/bin"; do
-  [ -d "$d" ] && export PATH="$d:$PATH"
-done
+# driven the same way by you and by chief (parity). Its bin goes on PATH in
+# ~/.zshenv, so `ssh host 'claude-fleet ...'` resolves it too.
 
 # Auto-trust the current dir before launching claude so the workspace-trust
 # dialog never interrupts. Pairs with `"defaultMode": "bypassPermissions"`
