@@ -13,7 +13,6 @@
     ~/.dotfiles: ''
     ~/.zsh:
     ~/.zshrc:
-    ~/.zshenv:
     ~/.gitconfig:
     ~/.tmux.conf: tmux.conf
     # Share just the manifest. Skill content goes to ~/.agents/skills/ per-machine.
